@@ -18,12 +18,12 @@ use Sylius\Bundle\FixturesBundle\Suite\PriorityQueue;
 
 final class PriorityQueueSpec extends ObjectBehavior
 {
-    function it_is_initializable(): void
+    public function it_is_initializable(): void
     {
         $this->shouldHaveType(PriorityQueue::class);
     }
 
-    function it_keeps_fifo_order_for_elements_with_same_priority(): void
+    public function it_keeps_fifo_order_for_elements_with_same_priority(): void
     {
         $this->insert(['element' => 2]);
         $this->insert(['element' => 1]);
@@ -32,7 +32,7 @@ final class PriorityQueueSpec extends ObjectBehavior
         $this->getIterator()->shouldIterateAs([['element' => 2], ['element' => 1], ['element' => 3]]);
     }
 
-    function it_sorts_elements_by_their_priority(): void
+    public function it_sorts_elements_by_their_priority(): void
     {
         $this->insert(['element' => 1], -1);
         $this->insert(['element' => 2], 0);
