@@ -26,7 +26,7 @@ final class ORMPurgerListener extends AbstractListener implements BeforeSuiteLis
         'truncate' => ORMPurger::PURGE_MODE_TRUNCATE,
     ];
 
-    public function __construct(private ManagerRegistry $managerRegistry)
+    public function __construct(private readonly ManagerRegistry $managerRegistry)
     {
     }
 

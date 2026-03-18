@@ -16,7 +16,7 @@ namespace Sylius\Bundle\FixturesBundle\Suite;
 use Sylius\Bundle\FixturesBundle\Fixture\FixtureInterface;
 use Sylius\Bundle\FixturesBundle\Listener\ListenerInterface;
 
-final class Suite implements SuiteInterface
+final readonly class Suite implements SuiteInterface
 {
     private PriorityQueue $fixtures;
 

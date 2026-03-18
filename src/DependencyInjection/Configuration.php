@@ -118,9 +118,7 @@ final class Configuration implements ConfigurationInterface
             ->beforeNormalization()
                 ->always(
                     /** @param mixed $value */
-                    static function ($value): array {
-                        return [$value];
-                    },
+                    static fn($value): array => [$value],
                 )
         ;
 

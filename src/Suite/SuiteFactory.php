@@ -18,7 +18,7 @@ use Sylius\Bundle\FixturesBundle\Listener\ListenerRegistryInterface;
 use Symfony\Component\Config\Definition\Processor;
 use Webmozart\Assert\Assert;
 
-final class SuiteFactory implements SuiteFactoryInterface
+final readonly class SuiteFactory implements SuiteFactoryInterface
 {
     public function __construct(
         private FixtureRegistryInterface $fixtureRegistry,
@@ -34,8 +34,8 @@ final class SuiteFactory implements SuiteFactoryInterface
 
         $suite = new Suite($name);
 
-        foreach ($configuration['fixtures'] as $fixtureAlias => $fixtureAttributes) {
-            $this->addFixtureToSuite($suite, $fixtureAlias, $fixtureAttributes);
+        foreach ($configuration['fixtures'] as $fixtureAttributes) {
+            $this->addFixtureToSuite($suite, $fixtureAttributes);
         }
 
         foreach ($configuration['listeners'] as $listenerName => $listenerAttributes) {
@@ -46,7 +46,7 @@ final class SuiteFactory implements SuiteFactoryInterface
     }
 
     /** @param array{name: string, options: array<mixed>, priority: ?int} $fixtureAttributes */
-    private function addFixtureToSuite(Suite $suite, string $fixtureAlias, array $fixtureAttributes): void
+    private function addFixtureToSuite(Suite $suite, array $fixtureAttributes): void
     {
         Assert::keyExists($fixtureAttributes, 'name');
         Assert::keyExists($fixtureAttributes, 'options');

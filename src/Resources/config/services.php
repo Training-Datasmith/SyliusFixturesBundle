@@ -16,7 +16,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 use Sylius\Bundle\FixturesBundle\Command\FixturesListCommand;
 use Sylius\Bundle\FixturesBundle\Command\FixturesLoadCommand;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
     $parameters = $container->parameters();
     $container->import('services/fixture.php');

@@ -16,7 +16,7 @@ namespace Sylius\Bundle\FixturesBundle\Loader;
 use Sylius\Bundle\FixturesBundle\Fixture\FixtureInterface;
 use Sylius\Bundle\FixturesBundle\Suite\SuiteInterface;
 
-final class SuiteLoader implements SuiteLoaderInterface
+final readonly class SuiteLoader implements SuiteLoaderInterface
 {
     public function __construct(private FixtureLoaderInterface $fixtureLoader)
     {

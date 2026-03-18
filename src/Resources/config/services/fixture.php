@@ -16,7 +16,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 use Sylius\Bundle\FixturesBundle\Fixture\FixtureRegistry;
 use Sylius\Bundle\FixturesBundle\Fixture\FixtureRegistryInterface;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services->defaults()

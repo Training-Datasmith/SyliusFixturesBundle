@@ -16,7 +16,7 @@ namespace Sylius\Bundle\FixturesBundle\Listener;
 use Sylius\Bundle\FixturesBundle\Fixture\FixtureInterface;
 use Sylius\Bundle\FixturesBundle\Suite\SuiteInterface;
 
-final class FixtureEvent
+final readonly class FixtureEvent
 {
     /** @param array<mixed> $fixtureOptions */
     public function __construct(

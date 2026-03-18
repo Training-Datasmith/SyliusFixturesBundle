@@ -15,7 +15,7 @@ namespace Sylius\Bundle\FixturesBundle\Listener;
 
 use Sylius\Bundle\FixturesBundle\Suite\SuiteInterface;
 
-final class SuiteEvent
+final readonly class SuiteEvent
 {
     public function __construct(private SuiteInterface $suite)
     {

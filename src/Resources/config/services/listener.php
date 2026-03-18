@@ -18,7 +18,7 @@ use Sylius\Bundle\FixturesBundle\Listener\ListenerRegistryInterface;
 use Sylius\Bundle\FixturesBundle\Listener\LoggerListener;
 use Sylius\Bundle\FixturesBundle\Listener\SuiteLoaderListener;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
     $parameters = $container->parameters();
 

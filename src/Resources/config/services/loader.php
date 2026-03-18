@@ -20,7 +20,7 @@ use Sylius\Bundle\FixturesBundle\Loader\HookableSuiteLoader;
 use Sylius\Bundle\FixturesBundle\Loader\SuiteLoader;
 use Sylius\Bundle\FixturesBundle\Loader\SuiteLoaderInterface;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services->defaults()

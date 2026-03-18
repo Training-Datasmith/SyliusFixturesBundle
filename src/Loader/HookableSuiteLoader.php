@@ -18,7 +18,7 @@ use Sylius\Bundle\FixturesBundle\Listener\BeforeSuiteListenerInterface;
 use Sylius\Bundle\FixturesBundle\Listener\SuiteEvent;
 use Sylius\Bundle\FixturesBundle\Suite\SuiteInterface;
 
-final class HookableSuiteLoader implements SuiteLoaderInterface
+final readonly class HookableSuiteLoader implements SuiteLoaderInterface
 {
     public function __construct(private SuiteLoaderInterface $decoratedSuiteLoader)
     {

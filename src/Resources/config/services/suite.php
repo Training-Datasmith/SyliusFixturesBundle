@@ -19,7 +19,7 @@ use Sylius\Bundle\FixturesBundle\Suite\SuiteFactoryInterface;
 use Sylius\Bundle\FixturesBundle\Suite\SuiteRegistryInterface;
 use Symfony\Component\Config\Definition\Processor;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $services->defaults()

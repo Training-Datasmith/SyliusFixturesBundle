@@ -19,7 +19,7 @@ use Sylius\Bundle\FixturesBundle\Listener\BeforeFixtureListenerInterface;
 use Sylius\Bundle\FixturesBundle\Listener\FixtureEvent;
 use Sylius\Bundle\FixturesBundle\Suite\SuiteInterface;
 
-final class HookableFixtureLoader implements FixtureLoaderInterface
+final readonly class HookableFixtureLoader implements FixtureLoaderInterface
 {
     public function __construct(private FixtureLoaderInterface $decoratedFixtureLoader)
     {

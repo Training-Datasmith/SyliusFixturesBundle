@@ -22,10 +22,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 final class FixturesListCommand extends Command
 {
     public function __construct(
-        private SuiteRegistryInterface $suiteRegistry,
-        private FixtureRegistryInterface $fixtureRegistry,
+        private readonly SuiteRegistryInterface $suiteRegistry,
+        private readonly FixtureRegistryInterface $fixtureRegistry,
     ) {
-        parent::__construct(null);
+        parent::__construct();
     }
 
     protected function configure(): void
