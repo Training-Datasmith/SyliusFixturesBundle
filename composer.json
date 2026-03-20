@@ -54,13 +54,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Sylius\\Bundle\\FixturesBundle\\": "src/"
+            "Sylius\\Bundle\\Fixtures_Bundle\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "spec\\Sylius\\Bundle\\FixturesBundle\\": "spec/",
-            "Sylius\\Bundle\\FixturesBundle\\Tests\\": "tests/"
+            "spec\\Sylius\\Bundle\\Fixtures_Bundle\\": "spec/",
+            "Sylius\\Bundle\\Fixtures_Bundle\\Tests\\": "tests/"
         }
     },
     "scripts": {
