@@ -8,25 +8,21 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Bundle\Fixtures_Bundle\Loader;
 
-declare(strict_types=1);
-
-namespace Sylius\Bundle\FixturesBundle\Loader;
-
-use Sylius\Bundle\FixturesBundle\Fixture\FixtureInterface;
-use Sylius\Bundle\FixturesBundle\Suite\SuiteInterface;
-
-final readonly class SuiteLoader implements SuiteLoaderInterface
+use Sylius\Bundle\Fixtures_Bundle\Fixture\Fixture_Interface;
+use Sylius\Bundle\Fixtures_Bundle\Suite\Suite_Interface;
+final readonly class Suite_Loader implements Suite_Loader_Interface
 {
-    public function __construct(private FixtureLoaderInterface $fixtureLoader)
+    public function __construct(private Fixture_Loader_Interface $fixture_loader)
     {
     }
-
-    public function load(SuiteInterface $suite): void
+    public function load(Suite_Interface $suite): void
     {
         /** @var FixtureInterface $fixture */
-        foreach ($suite->getFixtures() as $fixture => $fixtureOptions) {
-            $this->fixtureLoader->load($suite, $fixture, $fixtureOptions);
+        foreach ($suite->get_fixtures() as $fixture => $fixture_options) {
+            $this->fixture_loader->load($suite, $fixture, $fixture_options);
         }
     }
 }

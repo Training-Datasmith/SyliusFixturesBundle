@@ -8,13 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Bundle\Fixtures_Bundle\Listener;
 
-declare(strict_types=1);
-
-namespace Sylius\Bundle\FixturesBundle\Listener;
-
-interface AfterSuiteListenerInterface extends ListenerInterface
+interface After_Suite_Listener_Interface extends Listener_Interface
 {
     /** @param array<mixed> $options */
-    public function afterSuite(SuiteEvent $suiteEvent, array $options): void;
+    public function after_suite(Suite_Event $suite_event, array $options): void;
 }

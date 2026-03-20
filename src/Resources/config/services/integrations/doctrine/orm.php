@@ -8,21 +8,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Symfony\Component\Dependency_Injection\Loader\Configurator;
 
-declare(strict_types=1);
-
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
-use Sylius\Bundle\FixturesBundle\Listener\ORMPurgerListener;
-
-return static function (ContainerConfigurator $container): void {
+use Sylius\Bundle\Fixtures_Bundle\Listener\Orm_Purger_Listener;
+return static function (Container_Configurator $container): void {
     $services = $container->services();
-
-    $services->defaults()
-        ->public();
-
-    $services->set('sylius_fixtures.listener.orm_purger', ORMPurgerListener::class)
-        ->private()
-        ->args([service('doctrine')])
-        ->tag('sylius_fixtures.listener');
+    $services->defaults()->public();
+    $services->set('sylius_fixtures.listener.orm_purger', Orm_Purger_Listener::class)->private()->args([service('doctrine')])->tag('sylius_fixtures.listener');
 };

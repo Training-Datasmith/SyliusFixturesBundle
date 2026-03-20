@@ -8,51 +8,41 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Bundle\Fixtures_Bundle\Suite;
 
-declare(strict_types=1);
-
-namespace Sylius\Bundle\FixturesBundle\Suite;
-
-use Sylius\Bundle\FixturesBundle\Fixture\FixtureInterface;
-use Sylius\Bundle\FixturesBundle\Listener\ListenerInterface;
-
-final readonly class Suite implements SuiteInterface
+use Sylius\Bundle\Fixtures_Bundle\Fixture\Fixture_Interface;
+use Sylius\Bundle\Fixtures_Bundle\Listener\Listener_Interface;
+final readonly class Suite implements Suite_Interface
 {
-    private PriorityQueue $fixtures;
-
-    private PriorityQueue $listeners;
-
+    private Priority_Queue $fixtures;
+    private Priority_Queue $listeners;
     public function __construct(private string $name)
     {
-        $this->fixtures = new PriorityQueue();
-        $this->listeners = new PriorityQueue();
+        $this->fixtures = new Priority_Queue();
+        $this->listeners = new Priority_Queue();
     }
-
     /** @param array<mixed> $options */
-    public function addFixture(FixtureInterface $fixture, array $options, int $priority = 0): void
+    public function add_fixture(Fixture_Interface $fixture, array $options, int $priority = 0): void
     {
         $this->fixtures->insert(['fixture' => $fixture, 'options' => $options], $priority);
     }
-
     /** @param array<mixed> $options */
-    public function addListener(ListenerInterface $listener, array $options, int $priority = 0): void
+    public function add_listener(Listener_Interface $listener, array $options, int $priority = 0): void
     {
         $this->listeners->insert(['listener' => $listener, 'options' => $options], $priority);
     }
-
-    public function getName(): string
+    public function get_name(): string
     {
         return $this->name;
     }
-
-    public function getFixtures(): iterable
+    public function get_fixtures(): iterable
     {
         foreach ($this->fixtures as $fixture) {
             yield $fixture['fixture'] => $fixture['options'];
         }
     }
-
-    public function getListeners(): iterable
+    public function get_listeners(): iterable
     {
         foreach ($this->listeners as $listener) {
             yield $listener['listener'] => $listener['options'];

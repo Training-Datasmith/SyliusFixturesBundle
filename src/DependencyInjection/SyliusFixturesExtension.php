@@ -8,75 +8,53 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Bundle\Fixtures_Bundle\Dependency_Injection;
 
-declare(strict_types=1);
-
-namespace Sylius\Bundle\FixturesBundle\DependencyInjection;
-
-use Sylius\Bundle\FixturesBundle\DependencyInjection\Compiler\FixtureRegistryPass;
-use Sylius\Bundle\FixturesBundle\DependencyInjection\Compiler\ListenerRegistryPass;
-use Sylius\Bundle\FixturesBundle\Fixture\FixtureInterface;
-use Sylius\Bundle\FixturesBundle\Listener\ListenerInterface;
-use Symfony\Component\Config\Definition\ConfigurationInterface;
-use Symfony\Component\Config\FileLocator;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
-use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
-
-final class SyliusFixturesExtension extends Extension implements PrependExtensionInterface
+use Sylius\Bundle\Fixtures_Bundle\Dependency_Injection\Compiler\Fixture_Registry_Pass;
+use Sylius\Bundle\Fixtures_Bundle\Dependency_Injection\Compiler\Listener_Registry_Pass;
+use Sylius\Bundle\Fixtures_Bundle\Fixture\Fixture_Interface;
+use Sylius\Bundle\Fixtures_Bundle\Listener\Listener_Interface;
+use Symfony\Component\Config\Definition\Configuration_Interface;
+use Symfony\Component\Config\File_Locator;
+use Symfony\Component\Dependency_Injection\Container_Builder;
+use Symfony\Component\Dependency_Injection\Extension\Prepend_Extension_Interface;
+use Symfony\Component\Dependency_Injection\Loader\Php_File_Loader;
+use Symfony\Component\Http_Kernel\Dependency_Injection\Extension;
+final class Sylius_Fixtures_Extension extends Extension implements Prepend_Extension_Interface
 {
     /** @param array<mixed> $config */
-    public function getConfiguration(array $config, ContainerBuilder $container): ConfigurationInterface
+    public function get_configuration(array $config, Container_Builder $container): Configuration_Interface
     {
         return new Configuration();
     }
-
     /** @param array<array<mixed>> $configs */
-    public function load(array $configs, ContainerBuilder $container): void
+    public function load(array $configs, Container_Builder $container): void
     {
-        $config = $this->processConfiguration($this->getConfiguration([], $container), $configs);
-        $loader = new PhpFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
-
+        $config = $this->process_configuration($this->get_configuration([], $container), $configs);
+        $loader = new Php_File_Loader($container, new File_Locator(__DIR__ . '/../Resources/config'));
         $loader->load('services.php');
-
-        $this->registerSuites($config, $container);
-
-        $container
-            ->registerForAutoconfiguration(FixtureInterface::class)
-            ->addTag(FixtureRegistryPass::FIXTURE_SERVICE_TAG)
-        ;
-        $container
-            ->registerForAutoconfiguration(ListenerInterface::class)
-            ->addTag(ListenerRegistryPass::LISTENER_SERVICE_TAG)
-        ;
+        $this->register_suites($config, $container);
+        $container->register_for_autoconfiguration(Fixture_Interface::class)->add_tag(Fixture_Registry_Pass::FIXTURE_SERVICE_TAG);
+        $container->register_for_autoconfiguration(Listener_Interface::class)->add_tag(Listener_Registry_Pass::LISTENER_SERVICE_TAG);
     }
-
-    public function prepend(ContainerBuilder $container): void
+    public function prepend(Container_Builder $container): void
     {
-        $loader = new PhpFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
-
-        $extensionsNamesToConfigurationFiles = [
-            'doctrine' => 'doctrine/orm.php',
-            'doctrine_mongodb' => 'doctrine/mongodb-odm.php',
-            'doctrine_phpcr' => 'doctrine/phpcr-odm.php',
-        ];
-
-        foreach ($extensionsNamesToConfigurationFiles as $extensionName => $configurationFile) {
-            if (!$container->hasExtension($extensionName)) {
+        $loader = new Php_File_Loader($container, new File_Locator(__DIR__ . '/../Resources/config'));
+        $extensions_names_to_configuration_files = ['doctrine' => 'doctrine/orm.php', 'doctrine_mongodb' => 'doctrine/mongodb-odm.php', 'doctrine_phpcr' => 'doctrine/phpcr-odm.php'];
+        foreach ($extensions_names_to_configuration_files as $extension_name => $configuration_file) {
+            if (!$container->has_extension($extension_name)) {
                 continue;
             }
-
-            $loader->load('services/integrations/' . $configurationFile);
+            $loader->load('services/integrations/' . $configuration_file);
         }
     }
-
     /** @param array{suites: array<string, array<mixed>>} $config */
-    private function registerSuites(array $config, ContainerBuilder $container): void
+    private function register_suites(array $config, Container_Builder $container): void
     {
-        $suiteRegistry = $container->findDefinition('sylius_fixtures.suite_registry');
-        foreach ($config['suites'] as $suiteName => $suiteConfiguration) {
-            $suiteRegistry->addMethodCall('addSuite', [$suiteName, $suiteConfiguration]);
+        $suite_registry = $container->find_definition('sylius_fixtures.suite_registry');
+        foreach ($config['suites'] as $suite_name => $suite_configuration) {
+            $suite_registry->add_method_call('addSuite', [$suite_name, $suite_configuration]);
         }
     }
 }

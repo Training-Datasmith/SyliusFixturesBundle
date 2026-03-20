@@ -8,59 +8,42 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Bundle\Fixtures_Bundle\Command;
 
-declare(strict_types=1);
-
-namespace Sylius\Bundle\FixturesBundle\Command;
-
-use Sylius\Bundle\FixturesBundle\Fixture\FixtureRegistryInterface;
-use Sylius\Bundle\FixturesBundle\Suite\SuiteRegistryInterface;
+use Sylius\Bundle\Fixtures_Bundle\Fixture\Fixture_Registry_Interface;
+use Sylius\Bundle\Fixtures_Bundle\Suite\Suite_Registry_Interface;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-
-final class FixturesListCommand extends Command
+use Symfony\Component\Console\Input\Input_Interface;
+use Symfony\Component\Console\Output\Output_Interface;
+final class Fixtures_List_Command extends Command
 {
-    public function __construct(
-        private readonly SuiteRegistryInterface $suiteRegistry,
-        private readonly FixtureRegistryInterface $fixtureRegistry,
-    ) {
+    public function __construct(private readonly Suite_Registry_Interface $suite_registry, private readonly Fixture_Registry_Interface $fixture_registry)
+    {
         parent::__construct();
     }
-
     protected function configure(): void
     {
-        $this
-            ->setName('sylius:fixtures:list')
-            ->setDescription('Lists available fixtures')
-        ;
+        $this->set_name('sylius:fixtures:list')->set_description('Lists available fixtures');
     }
-
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    protected function execute(Input_Interface $input, Output_Interface $output): int
     {
-        $this->listSuites($output);
-        $this->listFixtures($output);
-
+        $this->list_suites($output);
+        $this->list_fixtures($output);
         return 0;
     }
-
-    private function listSuites(OutputInterface $output): void
+    private function list_suites(Output_Interface $output): void
     {
-        $suites = $this->suiteRegistry->getSuites();
-
+        $suites = $this->suite_registry->get_suites();
         $output->writeln('Available suites:');
-
         foreach ($suites as $suite) {
-            $output->writeln(' - ' . $suite->getName());
+            $output->writeln(' - ' . $suite->get_name());
         }
     }
-
-    private function listFixtures(OutputInterface $output): void
+    private function list_fixtures(Output_Interface $output): void
     {
-        $fixtures = $this->fixtureRegistry->getFixtures();
-
+        $fixtures = $this->fixture_registry->get_fixtures();
         $output->writeln('Available fixtures:');
-
         foreach ($fixtures as $name => $fixture) {
             $output->writeln(' - ' . $name);
         }

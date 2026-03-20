@@ -8,35 +8,27 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
-namespace Sylius\Bundle\FixturesBundle\Listener;
+declare (strict_types=1);
+namespace Sylius\Bundle\Fixtures_Bundle\Listener;
 
 use Webmozart\Assert\Assert;
-
-final class ListenerRegistry implements ListenerRegistryInterface
+final class Listener_Registry implements Listener_Registry_Interface
 {
     /** @var array<string, ListenerInterface> */
     private array $listeners = [];
-
-    public function addListener(ListenerInterface $listener): void
+    public function add_listener(Listener_Interface $listener): void
     {
-        Assert::keyNotExists($this->listeners, $listener->getName(), 'Listener with name "%s" is already registered.');
-
-        $this->listeners[$listener->getName()] = $listener;
+        Assert::key_not_exists($this->listeners, $listener->get_name(), 'Listener with name "%s" is already registered.');
+        $this->listeners[$listener->get_name()] = $listener;
     }
-
-    public function getListener(string $name): ListenerInterface
+    public function get_listener(string $name): Listener_Interface
     {
         if (!isset($this->listeners[$name])) {
-            throw new ListenerNotFoundException($name);
+            throw new Listener_Not_Found_Exception($name);
         }
-
         return $this->listeners[$name];
     }
-
-    public function getListeners(): array
+    public function get_listeners(): array
     {
         return $this->listeners;
     }

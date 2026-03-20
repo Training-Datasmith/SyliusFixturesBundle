@@ -8,30 +8,25 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
-
-namespace Sylius\Bundle\FixturesBundle\Suite;
+declare (strict_types=1);
+namespace Sylius\Bundle\Fixtures_Bundle\Suite;
 
 /**
  * @internal
  *
  * @implements \IteratorAggregate<int, array<mixed>>
  */
-final class PriorityQueue implements \IteratorAggregate
+final class Priority_Queue implements \IteratorAggregate
 {
     /** @var array<int, array{data: array<mixed>, priority: int}> */
     private array $records = [];
-
     private bool $sorted = false;
-
     /** @param array<mixed> $data */
     public function insert(array $data, int $priority = 0): void
     {
         $this->records[] = ['priority' => $priority, 'data' => $data];
         $this->sorted = false;
     }
-
     /** @return \Traversable<array<mixed>> */
     public function getIterator(): \Traversable
     {
@@ -42,12 +37,10 @@ final class PriorityQueue implements \IteratorAggregate
                 \SORT_DESC,
                 array_keys($this->records),
                 \SORT_ASC,
-                $this->records,
+                $this->records
             );
-
             $this->sorted = true;
         }
-
         foreach ($this->records as $record) {
             yield $record['data'];
         }

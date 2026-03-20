@@ -8,14 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Bundle\Fixtures_Bundle\Loader;
 
-declare(strict_types=1);
-
-namespace Sylius\Bundle\FixturesBundle\Loader;
-
-use Sylius\Bundle\FixturesBundle\Suite\SuiteInterface;
-
-interface SuiteLoaderInterface
+use Sylius\Bundle\Fixtures_Bundle\Suite\Suite_Interface;
+interface Suite_Loader_Interface
 {
-    public function load(SuiteInterface $suite): void;
+    public function load(Suite_Interface $suite): void;
 }

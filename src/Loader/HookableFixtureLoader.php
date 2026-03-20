@@ -8,53 +8,42 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Bundle\Fixtures_Bundle\Loader;
 
-declare(strict_types=1);
-
-namespace Sylius\Bundle\FixturesBundle\Loader;
-
-use Sylius\Bundle\FixturesBundle\Fixture\FixtureInterface;
-use Sylius\Bundle\FixturesBundle\Listener\AfterFixtureListenerInterface;
-use Sylius\Bundle\FixturesBundle\Listener\BeforeFixtureListenerInterface;
-use Sylius\Bundle\FixturesBundle\Listener\FixtureEvent;
-use Sylius\Bundle\FixturesBundle\Suite\SuiteInterface;
-
-final readonly class HookableFixtureLoader implements FixtureLoaderInterface
+use Sylius\Bundle\Fixtures_Bundle\Fixture\Fixture_Interface;
+use Sylius\Bundle\Fixtures_Bundle\Listener\After_Fixture_Listener_Interface;
+use Sylius\Bundle\Fixtures_Bundle\Listener\Before_Fixture_Listener_Interface;
+use Sylius\Bundle\Fixtures_Bundle\Listener\Fixture_Event;
+use Sylius\Bundle\Fixtures_Bundle\Suite\Suite_Interface;
+final readonly class Hookable_Fixture_Loader implements Fixture_Loader_Interface
 {
-    public function __construct(private FixtureLoaderInterface $decoratedFixtureLoader)
+    public function __construct(private Fixture_Loader_Interface $decorated_fixture_loader)
     {
     }
-
-    public function load(SuiteInterface $suite, FixtureInterface $fixture, array $options): void
+    public function load(Suite_Interface $suite, Fixture_Interface $fixture, array $options): void
     {
-        $fixtureEvent = new FixtureEvent($suite, $fixture, $options);
-
-        $this->executeBeforeFixtureListeners($suite, $fixtureEvent);
-
-        $this->decoratedFixtureLoader->load($suite, $fixture, $options);
-
-        $this->executeAfterFixtureListeners($suite, $fixtureEvent);
+        $fixture_event = new Fixture_Event($suite, $fixture, $options);
+        $this->execute_before_fixture_listeners($suite, $fixture_event);
+        $this->decorated_fixture_loader->load($suite, $fixture, $options);
+        $this->execute_after_fixture_listeners($suite, $fixture_event);
     }
-
-    private function executeBeforeFixtureListeners(SuiteInterface $suite, FixtureEvent $fixtureEvent): void
+    private function execute_before_fixture_listeners(Suite_Interface $suite, Fixture_Event $fixture_event): void
     {
-        foreach ($suite->getListeners() as $listener => $listenerOptions) {
-            if (!$listener instanceof BeforeFixtureListenerInterface) {
+        foreach ($suite->get_listeners() as $listener => $listener_options) {
+            if (!$listener instanceof Before_Fixture_Listener_Interface) {
                 continue;
             }
-
-            $listener->beforeFixture($fixtureEvent, $listenerOptions);
+            $listener->before_fixture($fixture_event, $listener_options);
         }
     }
-
-    private function executeAfterFixtureListeners(SuiteInterface $suite, FixtureEvent $fixtureEvent): void
+    private function execute_after_fixture_listeners(Suite_Interface $suite, Fixture_Event $fixture_event): void
     {
-        foreach ($suite->getListeners() as $listener => $listenerOptions) {
-            if (!$listener instanceof AfterFixtureListenerInterface) {
+        foreach ($suite->get_listeners() as $listener => $listener_options) {
+            if (!$listener instanceof After_Fixture_Listener_Interface) {
                 continue;
             }
-
-            $listener->afterFixture($fixtureEvent, $listenerOptions);
+            $listener->after_fixture($fixture_event, $listener_options);
         }
     }
 }

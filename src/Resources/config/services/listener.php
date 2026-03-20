@@ -8,37 +8,19 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Symfony\Component\Dependency_Injection\Loader\Configurator;
 
-declare(strict_types=1);
-
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
-use Sylius\Bundle\FixturesBundle\Listener\ListenerRegistry;
-use Sylius\Bundle\FixturesBundle\Listener\ListenerRegistryInterface;
-use Sylius\Bundle\FixturesBundle\Listener\LoggerListener;
-use Sylius\Bundle\FixturesBundle\Listener\SuiteLoaderListener;
-
-return static function (ContainerConfigurator $container): void {
+use Sylius\Bundle\Fixtures_Bundle\Listener\Listener_Registry;
+use Sylius\Bundle\Fixtures_Bundle\Listener\Listener_Registry_Interface;
+use Sylius\Bundle\Fixtures_Bundle\Listener\Logger_Listener;
+use Sylius\Bundle\Fixtures_Bundle\Listener\Suite_Loader_Listener;
+return static function (Container_Configurator $container): void {
     $services = $container->services();
     $parameters = $container->parameters();
-
-    $services->defaults()
-        ->public();
-
-    $services->set('sylius_fixtures.listener_registry', ListenerRegistry::class)
-        ->private();
-
-    $services->alias(ListenerRegistryInterface::class, 'sylius_fixtures.listener_registry');
-
-    $services->set('sylius_fixtures.listener.suite_loader_listener', SuiteLoaderListener::class)
-        ->args([
-            service('sylius_fixtures.suite_registry'),
-            service('sylius_fixtures.suite_loader'),
-        ])
-        ->tag('sylius_fixtures.listener');
-
-    $services->set('sylius_fixtures.listener.logger', LoggerListener::class)
-        ->private()
-        ->args([service('sylius_fixtures.logger')])
-        ->tag('sylius_fixtures.listener');
+    $services->defaults()->public();
+    $services->set('sylius_fixtures.listener_registry', Listener_Registry::class)->private();
+    $services->alias(Listener_Registry_Interface::class, 'sylius_fixtures.listener_registry');
+    $services->set('sylius_fixtures.listener.suite_loader_listener', Suite_Loader_Listener::class)->args([service('sylius_fixtures.suite_registry'), service('sylius_fixtures.suite_loader')])->tag('sylius_fixtures.listener');
+    $services->set('sylius_fixtures.listener.logger', Logger_Listener::class)->private()->args([service('sylius_fixtures.logger')])->tag('sylius_fixtures.listener');
 };

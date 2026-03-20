@@ -8,12 +8,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Bundle\Fixtures_Bundle\Listener;
 
-declare(strict_types=1);
-
-namespace Sylius\Bundle\FixturesBundle\Listener;
-
-final class ListenerNotFoundException extends \InvalidArgumentException
+final class Listener_Not_Found_Exception extends \InvalidArgumentException
 {
     public function __construct(string $name, ?\Exception $previous = null)
     {

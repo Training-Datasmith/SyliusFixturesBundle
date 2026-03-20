@@ -8,68 +8,45 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Bundle\Fixtures_Bundle\Command;
 
-declare(strict_types=1);
-
-namespace Sylius\Bundle\FixturesBundle\Command;
-
-use Sylius\Bundle\FixturesBundle\Loader\SuiteLoaderInterface;
-use Sylius\Bundle\FixturesBundle\Suite\SuiteRegistryInterface;
+use Sylius\Bundle\Fixtures_Bundle\Loader\Suite_Loader_Interface;
+use Sylius\Bundle\Fixtures_Bundle\Suite\Suite_Registry_Interface;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\QuestionHelper;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
-
-final class FixturesLoadCommand extends Command
+use Symfony\Component\Console\Helper\Question_Helper;
+use Symfony\Component\Console\Input\Input_Argument;
+use Symfony\Component\Console\Input\Input_Interface;
+use Symfony\Component\Console\Output\Output_Interface;
+use Symfony\Component\Console\Question\Confirmation_Question;
+final class Fixtures_Load_Command extends Command
 {
-    public function __construct(
-        private readonly SuiteRegistryInterface $suiteRegistry,
-        private readonly SuiteLoaderInterface $suiteLoader,
-        private readonly string $environment,
-    ) {
+    public function __construct(private readonly Suite_Registry_Interface $suite_registry, private readonly Suite_Loader_Interface $suite_loader, private readonly string $environment)
+    {
         parent::__construct();
     }
-
     protected function configure(): void
     {
-        $this
-            ->setName('sylius:fixtures:load')
-            ->setDescription('Loads fixtures from given suite')
-            ->addArgument('suite', InputArgument::OPTIONAL, 'Suite name', 'default')
-        ;
+        $this->set_name('sylius:fixtures:load')->set_description('Loads fixtures from given suite')->add_argument('suite', Input_Argument::OPTIONAL, 'Suite name', 'default');
     }
-
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    protected function execute(Input_Interface $input, Output_Interface $output): int
     {
-        if ($input->isInteractive()) {
+        if ($input->is_interactive()) {
             /** @var QuestionHelper $questionHelper */
-            $questionHelper = $this->getHelper('question');
-
-            $output->writeln(sprintf(
-                "\n<error>Warning! Loading fixtures may purge your database for the %s environment (if `orm_purger` is used in your suite).</error>\n",
-                $this->environment,
-            ));
-
-            if (!$questionHelper->ask($input, $output, new ConfirmationQuestion('Continue? (y/N) ', false))) {
+            $question_helper = $this->get_helper('question');
+            $output->writeln(sprintf("\n<error>Warning! Loading fixtures may purge your database for the %s environment (if `orm_purger` is used in your suite).</error>\n", $this->environment));
+            if (!$question_helper->ask($input, $output, new Confirmation_Question('Continue? (y/N) ', false))) {
                 return 1;
             }
         }
-
-        $this->loadSuites($input);
-
+        $this->load_suites($input);
         return 0;
     }
-
-    private function loadSuites(InputInterface $input): void
+    private function load_suites(Input_Interface $input): void
     {
-        $suiteName = $input->getArgument('suite');
-
-        assert(is_string($suiteName));
-
-        $suite = $this->suiteRegistry->getSuite($suiteName);
-
-        $this->suiteLoader->load($suite);
+        $suite_name = $input->get_argument('suite');
+        assert(is_string($suite_name));
+        $suite = $this->suite_registry->get_suite($suite_name);
+        $this->suite_loader->load($suite);
     }
 }

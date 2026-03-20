@@ -8,45 +8,31 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Bundle\Fixtures_Bundle\Listener;
 
-declare(strict_types=1);
-
-namespace Sylius\Bundle\FixturesBundle\Listener;
-
-use Sylius\Bundle\FixturesBundle\Loader\SuiteLoaderInterface;
-use Sylius\Bundle\FixturesBundle\Suite\SuiteRegistryInterface;
-use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
-
-final class SuiteLoaderListener extends AbstractListener implements BeforeSuiteListenerInterface
+use Sylius\Bundle\Fixtures_Bundle\Loader\Suite_Loader_Interface;
+use Sylius\Bundle\Fixtures_Bundle\Suite\Suite_Registry_Interface;
+use Symfony\Component\Config\Definition\Builder\Array_Node_Definition;
+final class Suite_Loader_Listener extends Abstract_Listener implements Before_Suite_Listener_Interface
 {
-    public function __construct(
-        private readonly SuiteRegistryInterface $suiteRegistry,
-        private readonly SuiteLoaderInterface $suiteLoader,
-    ) {
+    public function __construct(private readonly Suite_Registry_Interface $suite_registry, private readonly Suite_Loader_Interface $suite_loader)
+    {
     }
-
-    public function getName(): string
+    public function get_name(): string
     {
         return 'suite_loader';
     }
-
     /** @param array{suites: string[]} $options */
-    public function beforeSuite(SuiteEvent $suiteEvent, array $options): void
+    public function before_suite(Suite_Event $suite_event, array $options): void
     {
-        foreach ($options['suites'] as $suiteName) {
-            $suite = $this->suiteRegistry->getSuite($suiteName);
-            $this->suiteLoader->load($suite);
+        foreach ($options['suites'] as $suite_name) {
+            $suite = $this->suite_registry->get_suite($suite_name);
+            $this->suite_loader->load($suite);
         }
     }
-
-    protected function configureOptionsNode(ArrayNodeDefinition $optionsNode): void
+    protected function configure_options_node(Array_Node_Definition $options_node): void
     {
-        $optionsNode->children()
-            ->arrayNode('suites')
-                ->requiresAtLeastOneElement()
-                ->performNoDeepMerging()
-                ->prototype('scalar')
-            ->end()
-        ;
+        $options_node->children()->array_node('suites')->requires_at_least_one_element()->perform_no_deep_merging()->prototype('scalar')->end();
     }
 }

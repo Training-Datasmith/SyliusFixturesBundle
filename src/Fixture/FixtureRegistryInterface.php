@@ -8,20 +8,17 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Bundle\Fixtures_Bundle\Fixture;
 
-declare(strict_types=1);
-
-namespace Sylius\Bundle\FixturesBundle\Fixture;
-
-interface FixtureRegistryInterface
+interface Fixture_Registry_Interface
 {
     /**
      * @throws FixtureNotFoundException
      */
-    public function getFixture(string $name): FixtureInterface;
-
+    public function get_fixture(string $name): Fixture_Interface;
     /**
      * @return array|FixtureInterface[] Name indexed
      */
-    public function getFixtures(): array;
+    public function get_fixtures(): array;
 }

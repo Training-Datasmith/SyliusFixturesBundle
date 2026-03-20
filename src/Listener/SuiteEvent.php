@@ -8,20 +8,16 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Bundle\Fixtures_Bundle\Listener;
 
-declare(strict_types=1);
-
-namespace Sylius\Bundle\FixturesBundle\Listener;
-
-use Sylius\Bundle\FixturesBundle\Suite\SuiteInterface;
-
-final readonly class SuiteEvent
+use Sylius\Bundle\Fixtures_Bundle\Suite\Suite_Interface;
+final readonly class Suite_Event
 {
-    public function __construct(private SuiteInterface $suite)
+    public function __construct(private Suite_Interface $suite)
     {
     }
-
-    public function suite(): SuiteInterface
+    public function suite(): Suite_Interface
     {
         return $this->suite;
     }

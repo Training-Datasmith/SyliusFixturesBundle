@@ -8,29 +8,22 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare (strict_types=1);
+namespace Sylius\Bundle\Fixtures_Bundle\Listener;
 
-declare(strict_types=1);
-
-namespace Sylius\Bundle\FixturesBundle\Listener;
-
-use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
-use Symfony\Component\Config\Definition\Builder\TreeBuilder;
-
-abstract class AbstractListener implements ListenerInterface
+use Symfony\Component\Config\Definition\Builder\Array_Node_Definition;
+use Symfony\Component\Config\Definition\Builder\Tree_Builder;
+abstract class Abstract_Listener implements Listener_Interface
 {
-    final public function getConfigTreeBuilder(): TreeBuilder
+    final public function get_config_tree_builder(): Tree_Builder
     {
-        $treeBuilder = new TreeBuilder($this->getName());
-
+        $tree_builder = new Tree_Builder($this->get_name());
         /** @var ArrayNodeDefinition $optionsNode */
-        $optionsNode = $treeBuilder->getRootNode();
-
-        $this->configureOptionsNode($optionsNode);
-
-        return $treeBuilder;
+        $options_node = $tree_builder->get_root_node();
+        $this->configure_options_node($options_node);
+        return $tree_builder;
     }
-
-    protected function configureOptionsNode(ArrayNodeDefinition $optionsNode): void
+    protected function configure_options_node(Array_Node_Definition $options_node): void
     {
         // empty
     }
